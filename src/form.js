@@ -67,7 +67,8 @@ angular.module('angularPayments')
           $window.Stripe.createToken(_getDataToSend(scope), function() {
             var args = arguments;
             scope.$apply(function() {
-              scope[attr.stripeForm].apply(scope, args);
+              // scope[attr.stripeForm].apply(scope, args);
+              $parse(attr.stripeForm)(scope).apply(scope, args)
             });
             button.prop('disabled', false);
 
@@ -75,7 +76,8 @@ angular.module('angularPayments')
 
         } else {
           scope.$apply(function() {
-            scope[attr.stripeForm].apply(scope, [400, {error: 'Invalid form submitted.'}]);
+            // scope[attr.stripeForm].apply(scope, [400, {error: 'Invalid form submitted.'}]);
+            $parse(attr.stripeForm)(scope).apply(scope, [400, {error: 'Invalid form submitted.'}]);
           });
           button.prop('disabled', false);
         }
